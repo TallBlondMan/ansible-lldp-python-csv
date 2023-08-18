@@ -1,8 +1,13 @@
 ---
 - name: lldp collect
-  hosts: wroservers
-  remote_user: root
+  hosts: <hosts>
+  remote_user: <root>
   tasks:
+   - name: Install LLDP
+     apt:
+      name: lldpd
+      state: present
+
    - name: Gathering lldp information
      community.general.lldp:
 
