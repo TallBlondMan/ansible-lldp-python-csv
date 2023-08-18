@@ -1,0 +1,17 @@
+---
+- name: lldp collect
+  hosts: wroservers
+  remote_user: root
+  tasks:
+   - name: Gathering lldp information
+     community.general.lldp:
+
+   - name: Formating and displaying
+     ansible.builtin.debug:
+      msg: >-
+       {% if lldp[item]['port'] is defined and lldp[item]['port']['ifname'] is defined %}
+        "{{ lldp[item]['chassis']['mgmt-ip'] }} - {{lldp[item]['chassis']['name'] }} - {{ lldp[item]['port']['ifname'] }}"
+       {% else %}
+        "Inside connection to PVE: {{lldp[item]['chassis']['name'] }}"
+       {% endif %}
+     loop: "{{ lldp.keys() }}"
